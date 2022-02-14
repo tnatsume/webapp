@@ -3,6 +3,9 @@ FROM php:7.4-apache
 #Composerのインストール
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
+RUN cd /etc/apache2/mods-enabled \
+    && ln -s ../mods-available/rewrite.load
+
 # ミドルウェアのインストール
 RUN apt-get update \
 && apt-get install -y \

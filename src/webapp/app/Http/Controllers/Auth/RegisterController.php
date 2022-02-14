@@ -8,7 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use Auth;
 class RegisterController extends Controller
 {
     /*
@@ -80,6 +80,9 @@ class RegisterController extends Controller
         return $user;
     }
 
+    public function showRegistrationForm(){
+        echo 'register';
+    }
 
     public function pre_check(Request $request){
         $this->validator($request->all())->validate();

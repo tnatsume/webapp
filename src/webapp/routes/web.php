@@ -10,12 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+logger('hello');
 Route::get('/', function () {
     return view('welcome');
 });
 
 Auth::routes();
+Route::get('/hello', function(){
+    echo 'hello';
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -23,3 +26,4 @@ Route::post('register/pre_check', 'Auth\RegisterController@pre_check')->name('re
 Route::get('register/verify/{token}', 'Auth\RegisterController@showForm');
 Route::post('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check');
 Route::post('register/main_register', 'Auth\RegisterController@mainRegister')->name('register.main.registered');
+logger(7);

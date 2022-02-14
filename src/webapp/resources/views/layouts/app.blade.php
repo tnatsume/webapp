@@ -18,6 +18,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <!-- bootstrap 4 -->
+    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">

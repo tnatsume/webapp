@@ -13,12 +13,13 @@ services:
     image: mariadb:5.5
     container_name: web_db
     environment:
-      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_USER=user
+      - MYSQL_ROOT_PASSWORD=secret
       - MYSQL_DATABASE=webapp
     ports:
       - 3306:3306
     volumes:
-      - ./docker/db:/var/lib/mariadb
+      - ./docker/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
       - ./docker/db:/docker-entrypoint-initdb.d
 # phpMyAdmin
   phpmyadmin:
@@ -33,7 +34,7 @@ services:
       - 8081:80
 # mailhog
   mailhog:
-    container_name: web_smtp
+    container_name: mailServer
     image: mailhog/mailhog
     ports:
       - 8025:8025
