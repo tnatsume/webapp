@@ -133,4 +133,17 @@ return [
 
     'log_channel' => env('MAIL_LOG_CHANNEL'),
 
+    'encryption' => env('MAIL_ENCRYPTION', ''),
+
+    'mailers' => [
+        'smtp' => [
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
+        ],
+    ],
 ];
