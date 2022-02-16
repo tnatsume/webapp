@@ -33,3 +33,7 @@ Route::post('register/pre_check', 'Auth\RegisterController@preCheck')->name('reg
 Route::get('register/verify/{token}', 'Auth\RegisterController@showForm');
 Route::post('register/main_check', 'Auth\RegisterController@mainCheck')->name('register.main.check');
 Route::post('register/main_register', 'Auth\RegisterController@mainRegister')->name('register.main.registered');
+
+// パスワード変更
+Route::get('changePassword','Auth\ChangePassword@showForm')->name('get.changePassword');
+Route::post('changePassword', 'Auth\ChangePassword@changePassword')->name('post.changePassword');

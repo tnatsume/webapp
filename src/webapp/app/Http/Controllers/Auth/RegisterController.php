@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Mail\EmailVerification;
+use App\Mail\RegisterEmailVerification;
 use App\User;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -54,7 +55,6 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-//            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -83,11 +83,12 @@ class RegisterController extends Controller
 
         $user = User::create([
             'email' => $data['email'],
+            'token' => Str::random(16),
             'password' => Hash::make($data['password']),
             'email_verify_token' => base64_encode($data['email']),
         ]);
 
-        $email = new EmailVerification($user);
+        $email = new RegisterEmailVerification($user);
         Mail::to($user->email)->send($email);
 
         return $user;
