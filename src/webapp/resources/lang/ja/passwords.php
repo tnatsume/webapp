@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'reset' => 'パスワードがリセットされました。!',
+    'reset' => 'パスワードがリセットされました!',
     'sent' => 'パスワード再設定用のリンクが送信されました。',
     'throttled' => 'Please wait before retrying.',
     'token' => 'This password reset token is invalid.',

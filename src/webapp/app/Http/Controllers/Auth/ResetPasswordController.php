@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Auth;
 
 class ResetPasswordController extends Controller
 {
@@ -116,7 +122,7 @@ class ResetPasswordController extends Controller
 
         $user->save();
 
-        event(new PasswordReset($user));
+        // event(new ResetsPasswords($user));
 
         $this->guard()->login($user);
     }

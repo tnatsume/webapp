@@ -15,11 +15,14 @@ class CreateAuctionsTable extends Migration
     {
         Schema::create('auctions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('duration of call');
+            $table->integer('auction of call')
+                ->default(0)
+                ->comment('0:オークション,1:抽選券');
             $table->string('title');
-            $table->text('situation');
+            $table->text('situation')->nullabele();
             $table->datetime('Deadline_date');
             $table->datetime('Calling_date');
+            $table->integer('value')->nullable()->comment('抽選券の値段');
             $table->timestamps();
         });
     }
