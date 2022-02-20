@@ -13,10 +13,11 @@ class AddUserKbnTpUsersTable extends Migration
      */
     public function up()
     {
-        $table->integer('user_kbn')
-            ->default(0)
-            ->comment('0:ユーザー, 11:配信者, 99:管理者');
-
+        Schema::table('users', function (Blueprint $table) {
+            $table->integer('user_kbn')
+                ->default(0)
+                ->comment('0:ユーザー, 11:配信者, 99:管理者');
+        });
     }
 
     /**

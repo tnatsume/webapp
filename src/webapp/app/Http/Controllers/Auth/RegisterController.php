@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Mail\RegisterEmailVerification;
 use App\User;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -61,13 +58,18 @@ class RegisterController extends Controller
     }
 
     public function preCheck(Request $request){
+        $request->validate([
+          'email' => 'required|string|email|max:255|unique:users',
+          'password' => 'required|string|min:6|confirmed',
+          'password_confirmation' => 'required|string|min:6',
+        ]);
         $this->validator($request->all());
         //flash data
         $request->flashOnly( 'email');
 
         $bridge_request = $request->all();
         // password マスキング
-        $bridge_request['password_mask'] = '******';
+        $bridge_request['password_mask'] = '**********';
 
         return view('auth.register_check')->with($bridge_request);
     }
@@ -80,14 +82,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-
-        $user = User::create([
-            'email' => $data['email'],
-            'token' => Str::random(16),
-            'password' => Hash::make($data['password']),
-            'email_verify_token' => base64_encode($data['email']),
-        ]);
-
+      $user = User::CretateUserByData($data);
         $email = new RegisterEmailVerification($user);
         Mail::to($user->email)->send($email);
 

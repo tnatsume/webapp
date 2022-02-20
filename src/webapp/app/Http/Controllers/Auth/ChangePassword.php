@@ -5,15 +5,16 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Auth;
+
 use Illuminate\Http\Request; // 追加
 use Illuminate\Support\Facades\Hash; // 追加
-use DB;
+
+use App\User;
 
 class ChangePassword extends Controller
 {
     public function showForm(){
-        $user_token = Auth::user()->token;
+        $user_token = User::GetUserToken();
         $data = array(
             'user_token' => $user_token,
         );
@@ -29,20 +30,23 @@ class ChangePassword extends Controller
             'confirm_password' => 'required|same:new_password', // user_passwordと値が同じか
         ]);
         $data = $request->all();
-        $user = DB::table('users')
-                ->where('token', '=', $data['user_token'])
-                ->first();
+        $user = User::GetUserByToken($data['user_token']);
+        // DB::table('users')
+        //         ->where('token', '=', $data['user_token'])
+        //         ->first();
         
         if(!Hash::check($data['password'], $user->password)){
             
             return view('auth.change_password.form');
         }else{
             try{
-                $user->password = $data['new_password'];
-                DB::commit();
-                $user = DB::table('users')
-                    ->where('token', '=', $data['user_token'])
-                    ->first();
+                User::UpdatePasswordBytoken($data['new_password'], $user);
+                // $user->password = $data['new_password'];
+                // DB::commit();
+                $user = User::GetUserByToken($data['user_token']);
+                // B::table('users')
+                //     ->where('token', '=', $data['user_token'])
+                //     ->first();
                     session()->flush('msg_success', 'パスワードの変更に成功しました。');
                     return view('auth.change_password.form')->with($data);
             }catch(Exception $e){
