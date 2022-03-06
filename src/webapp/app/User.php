@@ -23,6 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password', 'token',
+        'user_kbn',
         'email_verified', 'email_verify_token',
     ];
 
@@ -93,7 +94,7 @@ class User extends Authenticatable
      * @param array $data
      * @return array $user
      */
-    public function CretateUserByData($data)[
+    public static function CretateUserByData($data){
         $user = User::create([
             'email' => $data['email'],
             'token' => Str::random(64),
@@ -101,5 +102,27 @@ class User extends Authenticatable
             'email_verify_token' => base64_encode($data['email']),
         ]);
         return $user;
-    ]
+    }
+
+    
+    public static function GetUserKbnByUserToken($user_token){
+        return DB::table('users')
+                ->select('user_kbn')
+                ->where('token', '=', $user_token)
+                ->first();
+    }
+    /**
+     * 過去に登録されたオークションを全て取得する
+     * 
+     * @param $user_token
+     * @return $user_name
+     */
+    public static function GetSellerByAuctionToken($user_token){
+        $user_name = DB::table('users')
+                ->select('name')
+                ->where('token', '=', $user_token)
+                ->first();
+        
+        return $user_name;
+    }
 }

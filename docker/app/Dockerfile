@@ -6,6 +6,8 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN cd /etc/apache2/mods-enabled \
     && ln -s ../mods-available/rewrite.load
 
+WORKDIR /var/www/html/webapp
+
 # ミドルウェアのインストール
 RUN apt-get update \
 && apt-get install -y \

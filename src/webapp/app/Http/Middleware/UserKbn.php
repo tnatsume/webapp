@@ -16,10 +16,9 @@ class UserKbn
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        var_dump(Auth::user());
         if($user->user_kbn == 0){
-
-        }else if($user->user_kbn == 1){
+            return $user
+        }else if($user->user_kbn == 11){
 
         } else if($user->user_kbn == 99){
 

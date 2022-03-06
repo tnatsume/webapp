@@ -6,4 +6,4 @@ FROM nginx
 COPY ./default.conf /etc/nginx/conf.d/
 
 # ローカルの　htmlファイル をコンテナ内の /var/www/html/ にコピーする
-COPY ./*.html /var/www/html/
+COPY ./*.html /var/www/html/webapp
