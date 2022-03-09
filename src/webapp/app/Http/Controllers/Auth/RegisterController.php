@@ -152,13 +152,24 @@ class RegisterController extends Controller
     $user->status = config('const.USER_STATUS.REGISTER');
     $user->name = $request->name;
     $user->name_pronunciation = $request->name_pronunciation;
-    $user->birth_year = $request->birth_year;
-    $user->birth_month = $request->birth_month;
-    $user->birth_day = $request->birth_day;
+    $user->birthday = $request->birth_year. '/' . $request->birth_month . '/' . $request->birth_day;
     $user->save();
 
     return view('auth.main.registered');
   }
+  public function pre_check(Request $request){
+    dd($request);
+    $this->validator($request->all())->validate();
+    //flash data
+    $request->flashOnly( 'email');
+
+    $bridge_request = $request->all();
+    // password マスキング
+    $bridge_request['password_mask'] = '******';
+
+    return view('auth.register_check')->with($bridge_request);
+}
+
 
 
 }

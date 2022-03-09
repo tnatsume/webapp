@@ -22,8 +22,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'token',
-        'user_kbn',
+        'name', 'email', 'password', 'user_token',
+        'user_kbn','identification_flag',
         'email_verified', 'email_verify_token',
     ];
 
@@ -72,8 +72,8 @@ class User extends Authenticatable
      * @param $user_token
      * @return array $user
      */
-    public function GetUserByToken($user_token){
-        return User::findBy($user_token);
+    public static function GetUserByToken($user_token){
+        return User::where('user_token', '=', $user_token)->first();
     }
 
     /**
@@ -97,7 +97,7 @@ class User extends Authenticatable
     public static function CretateUserByData($data){
         $user = User::create([
             'email' => $data['email'],
-            'token' => Str::random(64),
+            'user_token' => Str::random(64),
             'password' => Hash::make($data['password']),
             'email_verify_token' => base64_encode($data['email']),
         ]);
@@ -125,4 +125,5 @@ class User extends Authenticatable
         
         return $user_name;
     }
+    
 }

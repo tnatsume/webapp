@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  php-apache:
+    container_name: php-apache
+    build:
+      context: ./php
+    ports:
+        - '8000:80'
+    volumes:
+      - ./src:/var/www/laravel_docker
+      - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - database
+  database:
+    image: mariadb:5.5
+    container_name: db
+    environment:
+      - MYSQL_ROOT_USER=user
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=webapp
+    ports:
+      - 3306:3306
+    volumes:
+      - ./docker/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
+      - ./docker/db:/docker-entrypoint-initdb.d
+# mailhog
+  mailhog:
+    container_name: mailServer
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+      - 1025:1025
